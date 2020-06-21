@@ -33,5 +33,20 @@
 
     </android.support.design.widget.TabLayout>
 
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="8dp"
+        android:text="Start"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_15sdp"
+        android:visibility="gone"
+        android:background="@drawable/button_shape"
+        app:layout_constraintEnd_toEndOf="@+id/tab_layout"
+        app:layout_constraintStart_toStartOf="@+id/tab_layout"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.cv19protection.activity.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cv19protection.R;
+import com.example.cv19protection.activity.InnerActivity.LoginActivity;
+import com.example.cv19protection.activity.Model.MySession;
 
 import java.util.ArrayList;
 
@@ -25,7 +30,9 @@ public class IntoFragment extends Fragment {
     private ViewPager viewPager;
     private ArrayList<String> message_list;
     private ArrayList<Integer> image_list;
+    private Button start_button;
 
+    private MySession mySession;
     private TabLayout tabLayout;
 
     @Nullable
@@ -37,13 +44,53 @@ public class IntoFragment extends Fragment {
         fill_details();
         init(view);
 
+        mySession=new MySession(getContext());
+
         viewPager.setAdapter(new ViewPagerAdapater(getContext()));
 
         viewPager.setPageMargin(50);
 
         tabLayout.setupWithViewPager(viewPager);
 
-        return view;
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+                if(i==2){
+                    start_button.setVisibility(View.VISIBLE);
+                }else {
+
+                    start_button.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+
+        start_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mySession.setVisit(true);
+                Intent intent=new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+
+            }
+        });
+
+    return view;
     }
 
     private void fill_details() {
@@ -64,6 +111,8 @@ public class IntoFragment extends Fragment {
 
         viewPager=view.findViewById(R.id.into_viewpager);
         tabLayout=view.findViewById(R.id.tab_layout);
+        start_button=view.findViewById(R.id.start_button);
+
 
     }
 
@@ -104,9 +153,8 @@ public class IntoFragment extends Fragment {
 
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-            return view==o;
+            return view == o;
         }
-
     }
 
 }
