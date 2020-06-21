@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:elevation="@dimen/_50sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:background="@drawable/green_thin_border">
+
+    <ImageView
+        android:id="@+id/precaution_images"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42000002"
+        app:srcCompat="@drawable/face_mask" />
+
+    <TextView
+        android:id="@+id/precation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Wear a mask Daily"
+        android:textColor="@color/green"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/precaution_images"
+        app:layout_constraintStart_toStartOf="@+id/precaution_images"
+        app:layout_constraintTop_toBottomOf="@+id/precaution_images"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>
