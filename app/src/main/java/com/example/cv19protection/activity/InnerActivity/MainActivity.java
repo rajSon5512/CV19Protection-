@@ -1,5 +1,6 @@
 package com.example.cv19protection.activity.InnerActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,25 +15,45 @@ import com.example.cv19protection.R;
 import com.example.cv19protection.activity.Fragments.InformationFragment;
 import com.example.cv19protection.activity.Fragments.MapFragment;
 import com.example.cv19protection.activity.Fragments.SelfAssessmentFragment;
+import com.example.cv19protection.activity.Model.MySession;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private MySession mySession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mySession=new MySession(this);
+
+        if(!mySession.getVisit()){
+
+            Intent in=new Intent(this,IntoActivity.class);
+            startActivity(in);
+            finish();
+        }else if(mySession.getid().equals("")){
+
+            Intent in=new Intent(this,LoginActivity.class);
+            startActivity(in);
+            finish();
+        }else{
+            init();
+        }
+
+
+    }
+
+    private void init() {
+
         viewPager=findViewById(R.id.viewPager_main_screen);
         viewPager.setAdapter(new MainViewPager(getSupportFragmentManager()));
 
         tabLayout=findViewById(R.id.tab_layout);
-
-
         tabLayout.setupWithViewPager(viewPager);
-
         tabLayout.getTabAt(0).setIcon(R.drawable.newsletter);
         tabLayout.getTabAt(1).setIcon(R.drawable.map);
         tabLayout.getTabAt(2).setIcon(R.drawable.doctor);

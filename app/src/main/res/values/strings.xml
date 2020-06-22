@@ -19,5 +19,6 @@
     <string name="sign_up">Sign Up</string>
     <string name="log_out">Log out</string>
     <string name="stay_safe">Stay Safe,Stay Health</string>
+    <string name="url">http://localhost/covid19protection/</string>
 
 </resources>
