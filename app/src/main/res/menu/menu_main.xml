@@ -2,9 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.cv19protection.activity.InnerActivity.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
+    <item android:id="@+id/logout"
+        android:title="@string/log_out"
+        ></item>
+
+
 </menu>
+
