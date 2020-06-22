@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.tab_layout);
 
 
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.newsletter);
+        tabLayout.getTabAt(1).setIcon(R.drawable.map);
+        tabLayout.getTabAt(2).setIcon(R.drawable.doctor);
 
     }
 
@@ -48,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
             switch (i){
 
                 case 0:return new InformationFragment();
-                case 1:return new SelfAssessmentFragment();
-                default:return new MapFragment();
+                case 1:return new MapFragment();
+                default:return new SelfAssessmentFragment();
 
             }
 
