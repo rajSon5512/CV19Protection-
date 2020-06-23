@@ -1,5 +1,6 @@
 package com.example.cv19protection.activity.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,10 +19,16 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cv19protection.R;
+import com.example.cv19protection.activity.InnerActivity.MainActivity;
+import com.example.cv19protection.activity.Model.MySession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +41,15 @@ public class LoginFragment extends Fragment {
     private EditText mobile_number,password;
     private Button login_button;
     public String TAG="Durga";
-
+    private MySession mySession;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_log_in,container,false);
+
+        mySession=new MySession(getContext());
 
         init(view);
 
@@ -69,7 +78,57 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
+                RequestQueue ja=Volley.newRequestQueue(getContext());
+
+                StringRequest s=new StringRequest(
+                        Request.Method.POST,
+                        getString(R.string.url) + "login.php",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String s) {
+
+                                try {
+                                    JSONObject jsonObject=new JSONObject(s);
+
+                                    if(jsonObject.getString("status").equals("1")){
+
+                                        mySession.setid(jsonObject.getString("id"));
+                                        mySession.setMobileNumber(jsonObject.getString("mobile_number"));
+                                       Intent intent=new Intent(getActivity(), MainActivity.class);
+                                       startActivity(intent);
+                                       getActivity().finish();
+
+                                    }else{
+                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "onResponse: "+e.getMessage());
+                                }
+
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                Log.d("resssss",volleyError.toString());
+                            }
+                        }
+                ){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> param=new HashMap<String, String>();
+                        param.put("MobileNumber",mobile_number.getText().toString());
+                        param.put("Password",password.getText().toString());
+                        return param;
+                    }
+                };
+
+                ja.add(s);
+
+                /*Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
 
                 Log.d("Data_found", "onClick: "+mobile_number.getText().toString());
                 Log.d("Data_found", "onClick: "+password.getText().toString());
@@ -79,7 +138,7 @@ public class LoginFragment extends Fragment {
                 map.put("MobileNumber",mobile_number.getText().toString());
                 map.put("Password",password.getText().toString());
 
-                send_request("login",map);
+                send_request("login.php",map);*/
             }
         });
 
@@ -94,19 +153,21 @@ public class LoginFragment extends Fragment {
 
         StringRequest stringRequest=new StringRequest(
                 Request.Method.POST,
-                "http://google.com",
+                getString(R.string.url)+action,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
 
                         Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
+                        Log.d("Error_response", "onResponse: "+s);
                     }
-                },  new Response.ErrorListener() {
+                },
+                new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.d("Error_message", "onErrorResponse: "+error.getMessage());
-                Toast.makeText(getContext(),""+error,Toast.LENGTH_SHORT);
+                Log.d("Error_message", "onErrorResponse: "+error.toString());
+                Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
 
             }
         }

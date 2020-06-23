@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.example.cv19protection.R;
 import com.example.cv19protection.activity.Fragments.InformationFragment;
@@ -41,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(in);
             finish();
         }else{
+
+            Toast.makeText(this, ""+mySession.get_mobile_number(), Toast.LENGTH_SHORT).show();
             init();
         }
-
-
     }
 
     private void init() {
