@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/recylerview_entry_small"
+    android:padding="@dimen/_5sdp"
+    android:layout_marginVertical="@dimen/_2sdp"
+    android:background="@drawable/background_entries">
+
+    <TextView
+        android:id="@+id/yesterday_open_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yesterday Open Cases:"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/today_dealths"
+        app:layout_constraintTop_toBottomOf="@+id/today_dealths" />
+
+    <TextView
+        android:id="@+id/place_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="State:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/active_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Active Cases:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintStart_toStartOf="@+id/place_cases"
+        app:layout_constraintTop_toBottomOf="@+id/place_cases" />
+
+    <TextView
+        android:id="@+id/source_of_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Source:"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/active_cases"
+        app:layout_constraintTop_toBottomOf="@+id/active_cases" />
+
+    <TextView
+        android:id="@+id/today_confirm_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Today Confirmed:"
+        app:layout_constraintStart_toStartOf="@+id/source_of_information"
+        app:layout_constraintTop_toBottomOf="@+id/source_of_information" />
+
+    <TextView
+        android:id="@+id/today_dealths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today Deaths"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/today_confirm_cases"
+        app:layout_constraintTop_toBottomOf="@+id/today_confirm_cases" />
+
+    <TextView
+        android:id="@+id/today_recovered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Today Recovered"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/yesterday_open_cases"
+        app:layout_constraintTop_toBottomOf="@+id/yesterday_open_cases"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>

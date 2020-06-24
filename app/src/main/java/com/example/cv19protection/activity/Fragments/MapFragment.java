@@ -18,7 +18,6 @@ public class MapFragment extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_map,container,false);
         return view;
-
     }
 }
 

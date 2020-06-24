@@ -92,6 +92,8 @@ public class LoginFragment extends Fragment {
 
                                     if(jsonObject.getString("status").equals("1")){
 
+
+                                        Toast.makeText(getContext(), ""+jsonObject.getString("id"), Toast.LENGTH_SHORT).show();
                                         mySession.setid(jsonObject.getString("id"));
                                         mySession.setMobileNumber(jsonObject.getString("mobile_number"));
                                        Intent intent=new Intent(getActivity(), MainActivity.class);

@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
             Intent in=new Intent(this,IntoActivity.class);
             startActivity(in);
             finish();
-        }else if(mySession.getid().equals("")){
-
+        }else if(mySession.getid().equals("-1")){
             Intent in=new Intent(this,LoginActivity.class);
             startActivity(in);
             finish();
