@@ -342,9 +342,12 @@ public class InformationFragment extends Fragment {
     public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
 
         private Context context;
+        private ArrayList<SubCases> subCasesArrayList;
 
-        public InfoAdapter(Context context) {
+        public InfoAdapter(Context context,ArrayList subCasesArrayList) {
             this.context = context;
+            this.subCasesArrayList=subCasesArrayList;
+            setHasStableIds(true);
         }
 
         @NonNull
@@ -403,7 +406,7 @@ public class InformationFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return subCases.size();
+            return subCasesArrayList.size();
         }
     }
 
@@ -436,6 +439,7 @@ public class InformationFragment extends Fragment {
 
     public void send_request(String action){
 
+        recyclerView.setVisibility(View.GONE);
 
         final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
 
@@ -461,7 +465,7 @@ public class InformationFragment extends Fragment {
 
                             Log.d("Nation", "onResponse: "+selected_spinner);
 
-                            subCases=new ArrayList<SubCases>();
+                            subCases=new ArrayList<>();
 
                             SubCases s_temp=new SubCases(
                                     selected_spinner.getString(SubCases.name),
@@ -498,8 +502,9 @@ public class InformationFragment extends Fragment {
                                 );
                                 subCases.add(subCases_temp);
                             }
-                            recyclerView.setAdapter(new InfoAdapter(getContext()));
-                            recyclerView.getAdapter().notifyDataSetChanged();
+                            recyclerView.setAdapter(new InfoAdapter(getContext(),subCases));
+
+                            recyclerView.setVisibility(View.VISIBLE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
