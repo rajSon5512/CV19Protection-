@@ -21,6 +21,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,247 +54,16 @@ public class InformationFragment extends Fragment {
     private ArrayAdapter counties_adapter;
     private CharSequence date_sequence;
     private String[] counties=new String[]{
+            "Select Your Country",
             "India",
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "American Samoa",
-            "Andorra",
-            "Angola",
-            "Anguilla",
-            "Antarctica",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Aruba",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bermuda",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia and Herzegovina",
-            "Botswana",
-            "Brazil",
-            "British Indian Ocean Territory",
-            "British Virgin",
-            "Brunei",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burundi",
-            "Cambodia",
-            "Cameroon ",
+            "Germany",
             "Canada",
-            "Cape Verde",
-            "Cayman Islands",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Christmas Island",
-            "Cocos Islands",
-            "Colombia",
-            "Comoros",
-            "Cook Islands",
-            "Costa Rica",
-            "Croatia",
-            "Cuba ",
-            "Curacao",
-            "Cyprus ",
-            "Czech Republic",
-            "Democratic Republic of the Congo",
-            "Denmark ",
-            "Djibouti ",
-            "Dominica ",
-            "Dominican Republic",
-            "East Timor",
-            "Ecuador",
-            "Egypt ",
-            "El Salvador",
-            "Equatorial Guinea",
-            "Eritrea ",
-            "Estonia ",
-            "Ethiopia ",
-            "Falkland Islands ",
-            "Faroe Islands ",
-            "Fiji ",
-            "Finland ",
-            "France",
-            "French Polynesia",
-            "Gabon ",
-            "Gambia",
-            "Georgia ",
-            "Germany ",
-            "Ghana ",
-            "Gibraltar",
-            "Greece ",
-            "Greenland",
-            "Grenada ",
-            "Guam ",
-            "Guatemala",
-            "Guernsey ",
-            "Guinea ",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti ",
-            "Honduras ",
-            "Hong Kong ",
-            "Hungary ",
-            "Iceland ",
-            "India ",
-            "Indonesia ",
-            "Iran ",
-            "Iraq ",
-            "Ireland ",
-            "Isle of Man ",
-            "Israel",
-            "Italy ",
-            "Ivory Coast",
-            "Jamaica ",
-            "Japan ",
-            "Jersey ",
-            "Jordan ",
-            "Kazakhstan",
-            "Kenya ",
-            "Kiribati",
-            "Kosovo",
-            "Kuwait ",
-            "Kyrgyzstan",
-            "Laos ",
-            "Latvia",
-            "Lebanon ",
-            "Lesotho ",
-            "Liberia ",
-            "Libya ",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Macau ",
-            "Macedonia",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Maldives ",
-            "Mali ",
-            "Malta ",
-            "Marshall Islands ",
-            "Mauritania",
-            "Mauritius ",
-            "Mayotte ",
-            "Mexico ",
-            "Micronesia",
-            "Moldova ",
-            "Monaco ",
-            "Mongolia",
-            "Montenegro",
-            "Montserrat",
-            "Morocco ",
-            "Mozambique",
-            "Myanmar ",
-            "Namibia ",
-            "Nauru ",
-            "Nepal ",
-            "Netherlands",
-            "Netherlands Antilles",
-            "New Caledonia ",
-            "New Zealand ",
-            "Nicaragua ",
-            "Niger ",
-            "Nigeria",
-            "Niue ",
-            "North Korea",
-            "Northern Mariana Islands",
-            "Norway ",
-            "Oman ",
-            "Pakistan",
-            "Palau ",
-            "Palestine",
-            "Panama ",
-            "Papua New Guinea",
-            "Paraguay ",
-            "Peru ",
-            "Philippines ",
-            "Pitcairn ",
-            "Poland ",
-            "Portugal",
-            "Puerto Rico",
-            "Qatar ",
-            "Republic of the Congo",
-            "Reunion ",
-            "Romania ",
-            "Russia",
-            "Rwanda ",
-            "Saint Barthelemy",
-            "Saint Helena",
-            "Saint Kitts and Nevis",
-            "Saint Lucia",
-            "Saint Martin",
-            "Saint Pierre and Miquelon",
-            "Saint Vincent and the Grenadines",
-            "Samoa ",
-            "San Marino",
-            "Sao Tome and Principe",
-            "Saudi Arabia ",
-            "Senegal ",
-            "Serbia ",
-            "Seychelles",
-            "Sierra Leone",
-            "Singapore",
-            "Sint Maarten",
-            "Slovakia",
-            "Slovenia",
-            "Solomon Islands",
-            "Somalia ",
-            "South Africa",
-            "South Korea ",
-            "South Sudan ",
-            "Spain ",
-            "Sri Lanka",
-            "Sudan ",
-            "Suriname",
-            "Svalbard and Jan Mayen ",
-            "Swaziland ",
-            "Sweden ",
-            "Switzerland",
-            "Syria ",
-            "Taiwan",
-            "Tajikistan",
-            "Tanzania ",
-            "Thailand ",
-            "Togo ",
-            "Tokelau ",
-            "Tonga ",
-            "Trinidad and Tobago ",
-            "Tunisia ",
-            "Turkey ",
-            "Turkmenistan",
-            "Turks and Caicos Islands",
-            "Tuvalu ",
-            "U.S. Virgin Islands",
-            "Uganda ",
-            "Ukraine ",
-            "United Arab Emirates",
-            "United Kingdom ",
-            "United States ",
-            "Uruguay ",
-            "Uzbekistan ",
-            "Vanuatu ",
-            "Vatican ",
-            "Venezuela ",
-            "Vietnam ",
-            "Wallis and Futuna",
-            "Western Sahara",
-            "Yemen ",
-            "Zambia",
-            "Zimbabwe"};
+            "Brazil",
+            "Russia"
+
+    };
+
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -318,7 +88,14 @@ public class InformationFragment extends Fragment {
                 String url="https://api.covid19tracking.narrativa.com/api/"+date_sequence+"/country/"+counties[i];
 
                 Log.d("Response_Data", "onItemSelected: "+url);
-                send_request(url);
+
+                if(!counties[i].equals("Select Your Country")){
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    send_request(url);
+
+                }
+
             }
 
             @Override
@@ -336,6 +113,7 @@ public class InformationFragment extends Fragment {
     private void init(View view) {
         spinner=view.findViewById(R.id.spinner_search);
         recyclerView=view.findViewById(R.id.recyclerview_for_information);
+        progressBar=view.findViewById(R.id.progressBar_intro);
 
     }
 
@@ -354,9 +132,9 @@ public class InformationFragment extends Fragment {
         @Override
         public InfoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view=LayoutInflater.from(context).inflate(R.layout.recyclerview_small_entry,viewGroup,false);
+            View view=LayoutInflater.from(getContext()).inflate(R.layout.recyclerview_small_entry,viewGroup,false);
 
-            return new InfoViewHolder(view,context);
+            return new InfoViewHolder(view);
         }
 
         @Override
@@ -368,7 +146,7 @@ public class InformationFragment extends Fragment {
             infoViewHolder.today_confirm.setText("Today New Confirmed Cases:"+temp_sub.getTnc());
             infoViewHolder.today_death.setText("Today Deaths:"+temp_sub.getS_td());
             infoViewHolder.yester_day_cases.setText("Yesterday Open Cases:"+temp_sub.getS_yoc());
-            infoViewHolder.today_recover.setText("Yesterday Open Cases:"+temp_sub.getS_tr());
+            infoViewHolder.today_recover.setText("Today Recover:"+temp_sub.getS_tr());
 
 
             if(temp_sub.getS_name().equals(counties[spinner.getSelectedItemPosition()])){
@@ -408,6 +186,16 @@ public class InformationFragment extends Fragment {
         public int getItemCount() {
             return subCasesArrayList.size();
         }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
     }
 
     private class InfoViewHolder extends RecyclerView.ViewHolder {
@@ -416,15 +204,13 @@ public class InformationFragment extends Fragment {
         private ConstraintSet constraintSetnew=new ConstraintSet();
         private ConstraintLayout constraintLayout;
         private Boolean show=false;
-        private Context context;
         private TextView state_textview,active_cases,today_confirm,today_death,yester_day_cases,today_recover;
 
-        public InfoViewHolder(@NonNull View itemView,Context context) {
+        public InfoViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.context=context;
             constraintLayout=itemView.findViewById(R.id.recylerview_entry_small);
             constraintSetold.clone(constraintLayout);
-            constraintSetnew.clone(context,R.layout.recyclerview_wider_effect);
+            constraintSetnew.clone(getContext(),R.layout.recyclerview_wider_effect);
 
             state_textview=itemView.findViewById(R.id.place_cases);
             active_cases=itemView.findViewById(R.id.active_cases);
@@ -440,6 +226,16 @@ public class InformationFragment extends Fragment {
     public void send_request(String action){
 
         recyclerView.setVisibility(View.GONE);
+
+        subCases=new ArrayList<>();
+
+        if(subCases.size()!=0){
+
+            subCases.clear();
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+
+
 
         final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
 
@@ -465,7 +261,6 @@ public class InformationFragment extends Fragment {
 
                             Log.d("Nation", "onResponse: "+selected_spinner);
 
-                            subCases=new ArrayList<>();
 
                             SubCases s_temp=new SubCases(
                                     selected_spinner.getString(SubCases.name),
@@ -511,6 +306,7 @@ public class InformationFragment extends Fragment {
                             Log.d("Error_load", "onResponse: "+e.getMessage());
 
                         }
+                        progressBar.setVisibility(View.GONE);
                     }
                 },
                 new Response.ErrorListener() {
@@ -519,7 +315,7 @@ public class InformationFragment extends Fragment {
 
                         Log.d("Error_message", "onErrorResponse: "+error.toString());
                         Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
         );
