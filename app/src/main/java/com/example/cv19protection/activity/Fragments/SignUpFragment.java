@@ -95,11 +95,7 @@ public class SignUpFragment extends Fragment {
 
         String text=editText.getText().toString();
 
-        if(text.equals("")){
-            return true;
-        }
-
-        return false;
+        return text.equals("");
     }
 
 
