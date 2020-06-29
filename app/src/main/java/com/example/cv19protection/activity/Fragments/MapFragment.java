@@ -197,7 +197,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                             LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
 
-                            moveCameraWithMarker(latLng,"Home");
+                            moveCameraWithMarker(latLng,"My Location");
                             moveCamera(latLng,DEFUALT_ZOOM);
 
 
