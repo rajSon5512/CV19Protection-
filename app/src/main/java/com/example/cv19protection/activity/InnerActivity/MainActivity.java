@@ -18,6 +18,8 @@ import com.example.cv19protection.activity.Fragments.MapFragment;
 import com.example.cv19protection.activity.Fragments.SelfAssessmentFragment;
 import com.example.cv19protection.activity.Model.MySession;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -50,7 +52,15 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
 
         viewPager=findViewById(R.id.viewPager_main_screen);
-        viewPager.setAdapter(new MainViewPager(getSupportFragmentManager()));
+
+        ArrayList<Fragment> fr_list = new ArrayList<Fragment>();
+        fr_list.add(new InformationFragment());
+        fr_list.add(new MapFragment());
+        fr_list.add(new SelfAssessmentFragment());
+        MainViewPager mMyAdapter = new MainViewPager(getSupportFragmentManager(),fr_list);
+        viewPager.setAdapter(mMyAdapter);
+
+       /* viewPager.setAdapter(new MainViewPager(getSupportFragmentManager()));*/
 
         tabLayout=findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -63,28 +73,23 @@ public class MainActivity extends AppCompatActivity {
 
     public class MainViewPager extends FragmentStatePagerAdapter{
 
-        public MainViewPager(FragmentManager fm) {
+        ArrayList<Fragment> fr_list;
+
+        public MainViewPager(FragmentManager fm,ArrayList<Fragment> fr_list) {
             super(fm);
+            this.fr_list=fr_list;
         }
 
         @Override
-        public Fragment getItem(int i) {
-
-
-            switch (i){
-
-                case 0:return new InformationFragment();
-                case 1:return new MapFragment();
-                default:return new SelfAssessmentFragment();
-
-            }
-
+        public Fragment getItem(int position)
+        {
+            return fr_list.get(position);
         }
 
-
-        @Override
         public int getCount() {
-            return 3;
+
+            return fr_list.size();
+
         }
     }
 

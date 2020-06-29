@@ -44,6 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -162,7 +163,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //mMap.getUiSettings().setCompassEnabled(true);
             //mMap.getUiSettings().setMapToolbarEnabled(true);
 
-            getDeviceLocation();
+          //  getDeviceLocation();
 
         }
 
@@ -276,7 +277,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void send_request(String action, final Map<String,String> map)
     {
-
         final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
 
         Log.d(TAG, "send_request: hello");
@@ -297,12 +297,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                             if(success.equals("true")){
 
-                              /*  String array=jsonObject.getString("data");
+                                String array=jsonObject.getString("data");
 
                                 JSONArray jsonArray=new JSONArray(array);
 
                                 if(jsonArray.length()==0){
-                                    Toast.makeText(getContext(), "You Are Safe", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "You Are Safe...!!", Toast.LENGTH_SHORT).show();
                                 }else{
 
                                     mMap.clear();
@@ -320,7 +320,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         moveCameraWithMarker(latLng,"CV19-PATIENT");
                                     }
 
-                                }*/
+                                }
 
                             }
 
