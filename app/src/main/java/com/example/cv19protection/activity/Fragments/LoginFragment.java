@@ -84,18 +84,19 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void onResponse(String s) {
 
+                                Log.d(TAG, "onResponse: "+s);
+
                                 try {
                                     JSONObject jsonObject=new JSONObject(s);
 
                                     if(jsonObject.getString("status").equals("1")){
 
-
-                                        Toast.makeText(getContext(), ""+jsonObject.getString("id"), Toast.LENGTH_SHORT).show();
-                                        mySession.setid(jsonObject.getString("id"));
+                                        Intent intent=new Intent(getActivity(), MainActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                        Toast.makeText(getContext(), ""+jsonObject.getString("Id"), Toast.LENGTH_SHORT).show();
+                                        mySession.setid(jsonObject.getString("Id"));
                                         mySession.setMobileNumber(jsonObject.getString("mobile_number"));
-                                       Intent intent=new Intent(getActivity(), MainActivity.class);
-                                       startActivity(intent);
-                                       getActivity().finish();
 
                                     }else{
                                         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();

@@ -138,9 +138,9 @@ public class InformationFragment extends Fragment {
 
             SubCases temp_sub=subCases.get(i);
 
-            infoViewHolder.active_cases.setText("Active Cases:"+temp_sub.getS_tc());
+            infoViewHolder.active_cases.setText("Total Cases:"+temp_sub.getS_tc());
             infoViewHolder.today_confirm.setText("Today New Confirmed Cases:"+temp_sub.getTnc());
-            infoViewHolder.today_death.setText("Today Deaths:"+temp_sub.getS_td());
+            infoViewHolder.today_death.setText("Deaths Number:"+temp_sub.getS_td());
             infoViewHolder.yester_day_cases.setText("Yesterday Open Cases:"+temp_sub.getS_yoc());
             infoViewHolder.today_recover.setText("Today Recover:"+temp_sub.getS_tr());
 
