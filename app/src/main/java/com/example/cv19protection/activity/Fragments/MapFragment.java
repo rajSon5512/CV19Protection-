@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -33,17 +34,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = "MapFragment";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
-    private final static int REQUEST_FOR_PERMISSION=1;
-    private final static String REQUEST_FOR_FINE= Manifest.permission.ACCESS_FINE_LOCATION;
-    private final static String REQUEST_FOR_COARSE=Manifest.permission.ACCESS_COARSE_LOCATION;
-    private Boolean permission_allowed=false;
-    private final float DEFUALT_ZOOM=15f;
+    private final static int REQUEST_FOR_PERMISSION = 1;
+    private final static String REQUEST_FOR_FINE = Manifest.permission.ACCESS_FINE_LOCATION;
+    private final static String REQUEST_FOR_COARSE = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private Boolean permission_allowed = false;
+    private final float DEFUALT_ZOOM = 15f;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_map,container,false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         getPermission();
 
@@ -52,22 +53,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void getPermission() {
 
-        String[] permissions={REQUEST_FOR_COARSE,REQUEST_FOR_FINE};
+        String[] permissions = {REQUEST_FOR_COARSE, REQUEST_FOR_FINE};
 
-        if(ContextCompat.checkSelfPermission(getContext(),REQUEST_FOR_FINE)== PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(getContext(), REQUEST_FOR_FINE) == PackageManager.PERMISSION_GRANTED) {
 
-            if(ContextCompat.checkSelfPermission(getContext(),REQUEST_FOR_COARSE)==PackageManager.PERMISSION_GRANTED){
-                permission_allowed=true;
+            if (ContextCompat.checkSelfPermission(getContext(), REQUEST_FOR_COARSE) == PackageManager.PERMISSION_GRANTED) {
+                permission_allowed = true;
                 Log.d("Location_granted", "getPermission: permission_granted");
                 initMap();
 
-            }else{
-                ActivityCompat.requestPermissions(getActivity(),permissions,REQUEST_FOR_PERMISSION);
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_FOR_PERMISSION);
             }
 
-        }else{
+        } else {
 
-            ActivityCompat.requestPermissions(getActivity(),permissions,REQUEST_FOR_PERMISSION);
+            ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_FOR_PERMISSION);
 
         }
 
@@ -77,17 +78,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        for(int i=0;i<grantResults.length;i++){
+        for (int i = 0; i < grantResults.length; i++) {
 
-                if(grantResults[i]==PackageManager.PERMISSION_GRANTED){
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
 
-                    permission_allowed=true;
-                    Log.d("Location", "onRequestPermissionsResult:permission_granted ");
-                    initMap();
-                }else{
-                    permission_allowed=false;
-                    break;
-                }
+                permission_allowed = true;
+                Log.d("Location", "onRequestPermissionsResult:permission_granted ");
+                initMap();
+            } else {
+                permission_allowed = false;
+                break;
+            }
         }
 
 
@@ -95,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initMap() {
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -103,24 +104,75 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap=googleMap;
+        mMap = googleMap;
 
-        if(permission_allowed){
+        if (permission_allowed) {
             getDeviceLocation();
+
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext()
+                    , Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
         }
 
     }
 
-    public void getDeviceLocation(){
+
+
+    public void getDeviceLocation() {
 
         Log.d(TAG, "getDeviceLocation: getting the location of device.");
 
-        mFusedLocationClient=LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        try{
-            if(permission_allowed){
+        try {
+            if (permission_allowed) {
 
-                Task task=mFusedLocationClient.getLastLocation();
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                Task task = mFusedLocationClient.getLastLocation();
                 task.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
