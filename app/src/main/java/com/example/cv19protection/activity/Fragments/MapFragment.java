@@ -2,6 +2,8 @@ package com.example.cv19protection.activity.Fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -26,8 +28,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -134,6 +141,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return;
             }
             mMap.setMyLocationEnabled(true);
+            getLocate();
+
+
+            //mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            //mMap.getUiSettings().setCompassEnabled(true);
+            //mMap.getUiSettings().setMapToolbarEnabled(true);
         }
 
     }
@@ -184,6 +197,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                             LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
 
+                            moveCameraWithMarker(latLng,"Home");
                             moveCamera(latLng,DEFUALT_ZOOM);
 
 
@@ -206,6 +220,50 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "moveCamera: moving camera : Lat:"+latLng.latitude+"and lng:"+latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
     }
+
+    // put marker on require location
+
+    public void moveCameraWithMarker(LatLng latLng,String title){
+        Log.d(TAG, "setmarker: moving camera : Lat:"+latLng.latitude+"and lng:"+latLng.longitude);
+        /*mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));*/
+        MarkerOptions markerOptions=new MarkerOptions().position(latLng).title(title);
+
+        mMap.addMarker(markerOptions);
+    }
+
+
+
+    // find location using name
+
+    private void getLocate(){
+
+        Log.d(TAG, "getLocate: geoLocating");
+
+        String searchString = "California";
+
+        Geocoder geocoder=new Geocoder(getActivity());
+        List<Address> list_address=new ArrayList<>();
+
+        try{
+
+            list_address=geocoder.getFromLocationName(searchString,1);
+
+            Address address=list_address.get(0);
+
+            LatLng latLng=new LatLng(address.getLatitude(),address.getLongitude());
+
+           // moveCamera(latLng,DEFUALT_ZOOM);
+
+            Log.d(TAG, "getLocate: "+list_address);
+
+        }catch(Exception e){
+
+            Log.d(TAG, "getLocate: geoLocationError "+e.getMessage());
+        }
+
+
+    }
+
 
 }
 
