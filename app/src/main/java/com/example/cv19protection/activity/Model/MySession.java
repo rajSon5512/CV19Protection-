@@ -22,7 +22,7 @@ public class MySession {
 
     public String getid()
     {
-        return sharedPreferences.getString("id","-1");
+        return sharedPreferences.getString("id","");
     }
 
     public Boolean getVisit() {

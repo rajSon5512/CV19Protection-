@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.cv19protection.R;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private MySession mySession;
@@ -33,19 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
         mySession=new MySession(this);
 
+        Log.d(TAG, "onCreate: id="+mySession.getid());
+        Log.d(TAG, "onCreate: visit="+mySession.getVisit());
+
+
         if(!mySession.getVisit()){
 
             Intent in=new Intent(this,IntoActivity.class);
             startActivity(in);
             finish();
-        }else if(mySession.getid().equals("-1")){
+        }else if(mySession.getid().equals("")){
             Intent in=new Intent(this,LoginActivity.class);
             startActivity(in);
             finish();
         }else{
-
-            Toast.makeText(this, ""+mySession.get_mobile_number(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, ""+mySession.get_mobile_number(), Toast.LENGTH_SHORT).show();
             init();
+
+
         }
     }
 

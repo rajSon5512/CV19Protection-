@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment {
     private TextView sign_up_textview;
     private EditText mobile_number,password;
     private Button login_button;
-    public String TAG="Durga";
+    private static final String TAG = "LoginFragment";
     private MySession mySession;
 
     @Nullable
@@ -91,20 +91,19 @@ public class LoginFragment extends Fragment {
 
                                     if(jsonObject.getString("status").equals("1")){
 
-                                        Intent intent=new Intent(getActivity(), MainActivity.class);
+                                        String id=jsonObject.getString("id");
+                                        String mobile=jsonObject.getString("mobile_number");
+
+                                        mySession.setid(id);
+                                        mySession.setMobileNumber(mobile);
+                                        Intent intent=new Intent(getActivity(),MainActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();
-                                        Toast.makeText(getContext(), ""+jsonObject.getString("Id"), Toast.LENGTH_SHORT).show();
-                                        mySession.setid(jsonObject.getString("Id"));
-                                        mySession.setMobileNumber(jsonObject.getString("mobile_number"));
-
-                                    }else{
-                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                                     }
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.d(TAG, "onResponse: "+e.getMessage());
                                 }
 
 
@@ -120,8 +119,8 @@ public class LoginFragment extends Fragment {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String,String> param=new HashMap<String, String>();
-                        param.put("MobileNumber",mobile_number.getText().toString());
-                        param.put("Password",password.getText().toString());
+                        param.put("mobile_number",mobile_number.getText().toString());
+                        param.put("password",password.getText().toString());
                         return param;
                     }
                 };

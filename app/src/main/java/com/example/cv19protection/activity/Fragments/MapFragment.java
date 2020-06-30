@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cv19protection.R;
+import com.example.cv19protection.activity.Model.MySession;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +42,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -63,6 +67,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private final static String REQUEST_FOR_COARSE = Manifest.permission.ACCESS_COARSE_LOCATION;
     private Boolean permission_allowed = false;
     private final float DEFUALT_ZOOM = 16f;
+    private MySession mySession;
+    private Boolean start_reload=false;
+    private Handler handler;
+
 
     @Nullable
     @Override
@@ -70,8 +78,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
+
+        mySession=new MySession(getContext());
+
         getPermission();
 
+        handler=new Handler();
+
+        handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                Log.d(TAG, "run: hello world");
+                handler.postDelayed(this, 5000);
+                getDeviceLocation();
+            }
+        };
+
+        handler.postDelayed(r, 5000);
         return view;
     }
 
@@ -192,11 +217,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                             LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
                           //  moveCameraWithMarker(latLng,"My Location");
+
                             moveCamera(latLng,DEFUALT_ZOOM);
                             Map<String,String> map=new HashMap<>();
                             map.put("lat",String.valueOf(location.getLatitude()));
                             map.put("long",String.valueOf(location.getLongitude()));
+                            map.put("id",mySession.getid());
                             send_request("fetch_infected_people.php",map);
+                            start_reload=true;
 
                         }else {
                             Log.d(TAG, "onComplete: Location not found !!");
@@ -215,6 +243,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving camera : Lat:"+latLng.latitude+"and lng:"+latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+
+        CircleOptions circleOptions=new CircleOptions().center(latLng).radius(600).strokeWidth(3f).strokeColor(Color.RED)
+                .fillColor(Color.argb(70,150,50,50));
+
+
+        mMap.addCircle(circleOptions);
+
     }
 
     // put marker on require location
@@ -350,6 +385,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         requestQueue.add(stringRequest);
 
     }
+
+
+
 
 }
 
