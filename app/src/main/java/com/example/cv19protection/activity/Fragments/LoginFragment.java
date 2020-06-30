@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment {
     private Button login_button;
     private static final String TAG = "LoginFragment";
     private MySession mySession;
+    private TextView forget_password;
 
     @Nullable
     @Override
@@ -67,9 +68,21 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        forget_password=view.findViewById(R.id.forget_password);
+
+        forget_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forget_password();
+            }
+        });
+
+
         mobile_number=view.findViewById(R.id.l_mobile_number);
         password=view.findViewById(R.id.l_password);
         login_button=view.findViewById(R.id.l_login_button);
+
+
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,41 +157,11 @@ public class LoginFragment extends Fragment {
     }
 
 
-    public void send_request(String action, final Map<String,String> map){
+    public void forget_password(){
 
-        final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
-
-        Log.d(TAG, "send_request: hello");
-
-        StringRequest stringRequest=new StringRequest(
-                Request.Method.POST,
-                getString(R.string.url)+action,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-
-                        Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
-                        Log.d("Error_response", "onResponse: "+s);
-                    }
-                },
-                new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Log.d("Error_message", "onErrorResponse: "+error.toString());
-                Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
-
-            }
-        }
-        ){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return map;
-            }
-        };
-
-        requestQueue.add(stringRequest);
-
+            FragmentManager fm=getActivity().getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.login_container,new ForgetPasswordFragment()).addToBackStack("").commit();
     }
+
 
 }

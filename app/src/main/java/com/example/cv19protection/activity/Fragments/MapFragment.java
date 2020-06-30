@@ -69,8 +69,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private final float DEFUALT_ZOOM = 16f;
     private MySession mySession;
     private Boolean start_reload=false;
-    private Handler handler;
-
+    public static Handler handler;
+    public static Runnable runnable;
 
     @Nullable
     @Override
@@ -88,7 +88,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         handler = new Handler();
 
-        final Runnable r = new Runnable() {
+        runnable = new Runnable() {
             public void run() {
                 Log.d(TAG, "run: hello world");
                 handler.postDelayed(this, 5000);
@@ -96,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         };
 
-        handler.postDelayed(r, 5000);
+        handler.postDelayed(runnable, 5000);
         return view;
     }
 

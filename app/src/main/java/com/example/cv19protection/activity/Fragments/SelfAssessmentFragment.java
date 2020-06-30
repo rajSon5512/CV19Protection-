@@ -33,6 +33,7 @@ public class SelfAssessmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                MapFragment.handler.removeCallbacks(MapFragment.runnable);
                 mySession.setMobileNumber("");
                 mySession.setid("");
                 Intent intent=new Intent(getActivity(), LoginActivity.class);
