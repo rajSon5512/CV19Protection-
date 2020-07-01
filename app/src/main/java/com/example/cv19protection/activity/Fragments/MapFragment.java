@@ -60,6 +60,7 @@ import java.util.Map;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapFragment";
+    private static final String REQUEST_FOR_FORGROUND = Manifest.permission.FOREGROUND_SERVICE;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
     private final static int REQUEST_FOR_PERMISSION = 1;
@@ -102,7 +103,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void getPermission() {
 
-        String[] permissions = {REQUEST_FOR_COARSE, REQUEST_FOR_FINE};
+        String[] permissions = {REQUEST_FOR_COARSE, REQUEST_FOR_FINE,REQUEST_FOR_FORGROUND};
 
         if (ContextCompat.checkSelfPermission(getContext(), REQUEST_FOR_FINE) == PackageManager.PERMISSION_GRANTED) {
 
@@ -244,12 +245,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "moveCamera: moving camera : Lat:"+latLng.latitude+"and lng:"+latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
 
-        CircleOptions circleOptions=new CircleOptions().center(latLng).radius(600).strokeWidth(3f).strokeColor(Color.RED)
+      /*  CircleOptions circleOptions=new CircleOptions().center(latLng).radius(600).strokeWidth(3f).strokeColor(Color.RED)
                 .fillColor(Color.argb(70,150,50,50));
 
 
         mMap.addCircle(circleOptions);
-
+*/
     }
 
     // put marker on require location
