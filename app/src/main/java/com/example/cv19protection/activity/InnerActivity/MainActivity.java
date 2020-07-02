@@ -161,7 +161,32 @@ public class MainActivity extends AppCompatActivity {
         this.stopService(serviceIntent);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: onstart called");
+    }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: onpause called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: onStop method called");
+    
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: onDestroy called");
+        MapFragment.handler.removeCallbacks(MapFragment.runnable);
+    }
 }
 
 

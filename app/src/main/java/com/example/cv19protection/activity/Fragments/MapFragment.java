@@ -92,12 +92,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         runnable = new Runnable() {
             public void run() {
                 Log.d(TAG, "run: hello world");
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 10000);
                 getDeviceLocation();
             }
         };
 
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 10000);
         return view;
     }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private MySession mySession;
     private TextView forget_password;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -57,6 +59,8 @@ public class LoginFragment extends Fragment {
     private void init(View view) {
 
         sign_up_textview=view.findViewById(R.id.sign_up_textview);
+
+        progressBar=view.findViewById(R.id.progressBar_login_screen);
 
         sign_up_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +91,9 @@ public class LoginFragment extends Fragment {
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                login_button.setFocusable(false);
 
                 RequestQueue ja=Volley.newRequestQueue(getContext());
 
@@ -119,13 +126,18 @@ public class LoginFragment extends Fragment {
                                         Intent intent=new Intent(getActivity(),MainActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();
-                                    }
+                                    }else{
 
+                                        Toast.makeText(getContext(), "mobile Number and password wrong..!!", Toast.LENGTH_LONG).show();
+
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
+                                progressBar.setVisibility(View.GONE);
+                                login_button.setFocusable(true);
 
                             }
                         },
@@ -133,6 +145,8 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
                                 Log.d("resssss",volleyError.toString());
+                                progressBar.setVisibility(View.GONE);
+                                login_button.setFocusable(true);
                             }
                         }
                 ){

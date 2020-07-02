@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +36,7 @@ public class SignUpFragment extends Fragment {
     private EditText first_name,last_name,email,phone_number,password,confirm_password;
     private MySession mySession;
     private Button create_button;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -57,6 +59,8 @@ public class SignUpFragment extends Fragment {
         phone_number=view.findViewById(R.id.s_phonenumber);
         password=view.findViewById(R.id.s_password);
         confirm_password=view.findViewById(R.id.s_confirm_password);
+
+        progressBar=view.findViewById(R.id.progressBar_sign_up);
 
         create_button=view.findViewById(R.id.reg_btn);
 
@@ -101,6 +105,9 @@ public class SignUpFragment extends Fragment {
 
     public void send_request(String action, final Map<String,String> map){
 
+        progressBar.setVisibility(View.VISIBLE);
+        create_button.setFocusable(false);
+
         final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
 
         StringRequest stringRequest=new StringRequest(
@@ -122,12 +129,16 @@ public class SignUpFragment extends Fragment {
                                 getActivity().finish();
 
                             }
+                            else{
+                                Toast.makeText(getContext(), "NetWork Error", Toast.LENGTH_SHORT).show();
+                            }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        progressBar.setVisibility(View.GONE);
+                        create_button.setFocusable(true);
 
                     }
                 },
@@ -137,6 +148,9 @@ public class SignUpFragment extends Fragment {
 
                         Log.d("Error_message", "onErrorResponse: "+error.toString());
                         Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
+                        progressBar.setVisibility(View.GONE);
+                        create_button.setFocusable(true);
+
                     }
                 }
         ){
