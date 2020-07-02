@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:gravity="center"
+        app:titleTextColor="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:contentInsetEnd="0dp"
