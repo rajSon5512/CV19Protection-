@@ -27,5 +27,6 @@
     <string name="suggestion_one">Regularly and thoroughly clean your hands with an alcohol-based hand rub or wash them with soap and water. Why? Washing your hands with soap and water or using alcohol-based hand rub kills viruses that may be on your hands</string>
     <string name="fill_illness">We suggest please take require medicine and visit near COVID-19 testing center or contact Authorities.</string>
     <string name="covid_active_status">We suggest contact authorities and aware them regarding your situation and self quarantine your self,Our application is tracking your movement so near distance poeple can take require precautions in your presence.</string>
+    <string name="notification_start">Start Notification</string>
 
 </resources>

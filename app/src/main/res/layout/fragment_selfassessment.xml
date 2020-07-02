@@ -250,13 +250,30 @@
       android:background="@drawable/call_helplline_button"
       android:drawableLeft="@drawable/ic_baseline_call_24"
       android:text="Call Helpline"
+      android:textSize="@dimen/_10ssp"
       android:textAllCaps="false"
       android:textColor="@color/green"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
       app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
       app:layout_constraintVertical_bias="1.0" />
+
+  <Button
+      android:id="@+id/notification_action"
+      android:layout_width="@dimen/_100sdp"
+      android:layout_height="wrap_content"
+      android:background="@drawable/call_helplline_button"
+      android:text="Live Notify Start"
+      android:textSize="@dimen/_10ssp"
+      android:textAllCaps="false"
+      android:textColor="@color/green"
+      app:layout_constraintBottom_toBottomOf="@+id/call_helpline"
+      app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+      app:layout_constraintHorizontal_bias="1.0"
+      app:layout_constraintStart_toEndOf="@+id/call_helpline"
+      app:layout_constraintTop_toTopOf="@+id/call_helpline" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

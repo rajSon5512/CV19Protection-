@@ -44,6 +44,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
     private Button call_help_line_button;
     private TextView suggestion_rate;
     private static final String TAG = "SelfAssessmentFragment";
+    private Button live_notification_button;
 
 
     @Nullable
@@ -56,6 +57,11 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
 
         init(view);
 
+        if(mySession.get_notify()){
+
+            live_notification_button.setText("Live Notify Stop");
+            live_notification_button.setBackground(getResources().getDrawable(R.drawable.background_notify_press));
+        }
 
         if(mySession.get_Infected()){
 
@@ -91,6 +97,8 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         return view;
     }
 
+
+
     private void init(View view) {
 
         s1=view.findViewById(R.id.covid_status_switch);
@@ -110,6 +118,32 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         s6.setOnClickListener(this);
         s7.setOnClickListener(this);
 
+        live_notification_button=view.findViewById(R.id.notification_action);
+
+        live_notification_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(mySession.get_notify()){
+
+                    mySession.set_notify(false);
+                    live_notification_button.setText("Live Notify Stop");
+                    live_notification_button.setBackground(getResources().getDrawable(R.drawable.call_helplline_button));
+                    stopService();
+                }else{
+
+                    mySession.set_notify(true);
+                    live_notification_button.setText("Live Notify Stop");
+                    live_notification_button.setBackground(getResources().getDrawable(R.drawable.background_notify_press));
+                    startService();
+                }
+
+
+            }
+        });
+
+
+
         call_help_line_button=view.findViewById(R.id.call_helpline);
 
         call_help_line_button.setOnClickListener(new View.OnClickListener() {
@@ -125,18 +159,6 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         });
 
 
-    }
-
-
-    public void startService() {
-        Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
-        ContextCompat.startForegroundService(getActivity(), serviceIntent);
-    }
-    public void stopService() {
-
-        Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
-        getActivity().stopService(serviceIntent);
     }
 
 
@@ -261,5 +283,17 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
 
         requestQueue.add(stringRequest);
     }
+
+    public void startService() {
+        Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
+        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
+        ContextCompat.startForegroundService(getActivity(), serviceIntent);
+    }
+    public void stopService() {
+
+        Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
+        getActivity().stopService(serviceIntent);
+    }
+
 
 }

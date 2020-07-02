@@ -2,7 +2,12 @@ package com.example.cv19protection.activity.InnerActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.cv19protection.activity.Services.Foregroundservice;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -13,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.cv19protection.R;
@@ -115,6 +121,44 @@ public class MainActivity extends AppCompatActivity {
             return fr_list.size();
 
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.logout:
+                 MapFragment.handler.removeCallbacks(MapFragment.runnable);
+
+                mySession.setid("");
+                 mySession.set_Infected(false);
+                 mySession.setMobileNumber("");
+
+                 if(mySession.get_notify()){
+
+                     mySession.set_notify(false);
+                     stopService();
+                 }
+
+
+
+                Intent intent=new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+        }
+
+
+    return true;
+    }
+
+
+    public void stopService() {
+
+        Intent serviceIntent = new Intent(this, Foregroundservice.class);
+        this.stopService(serviceIntent);
     }
 
 

@@ -51,4 +51,15 @@ public class MySession {
         return sharedPreferences.getBoolean("infected",false);
     }
 
+    public void set_notify(Boolean b){
+        sharedPreferences.edit().putBoolean("notify",b).apply();
+    }
+
+    public Boolean get_notify(){
+        return sharedPreferences.getBoolean("notify",false);
+    }
+
+
+
+
 }
