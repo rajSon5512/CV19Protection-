@@ -21,5 +21,11 @@
     <string name="stay_safe">Stay Safe,Stay Health</string>
     <string name="url">http://192.168.1.2/covid19/</string>
     <string name="forget_password">Forget Password</string>
+    <string name="question_one">Have you found positive for Covid-19 ?</string>
+    <string name="question_second">Are you experiencing any of following symptopms ?</string>
+    <string name="question_third">Have you traveled anywhere internationally in the last 28-45 days ?</string>
+    <string name="suggestion_one">Regularly and thoroughly clean your hands with an alcohol-based hand rub or wash them with soap and water. Why? Washing your hands with soap and water or using alcohol-based hand rub kills viruses that may be on your hands</string>
+    <string name="fill_illness">We suggest please take require medicine and visit near COVID-19 testing center or contact Authorities.</string>
+    <string name="covid_active_status">We suggest contact authorities and aware them regarding your situation and self quarantine your self,Our application is tracking your movement so near distance poeple can take require precautions in your presence.</string>
 
 </resources>

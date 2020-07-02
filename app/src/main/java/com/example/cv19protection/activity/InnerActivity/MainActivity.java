@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.example.cv19protection.R;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private MySession mySession;
+    private Toolbar toolbar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mySession=new MySession(this);
+
+
 
         Log.d(TAG, "onCreate: id="+mySession.getid());
         Log.d(TAG, "onCreate: visit="+mySession.getVisit());
@@ -56,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void init() {
 
         viewPager=findViewById(R.id.viewPager_main_screen);
@@ -66,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         fr_list.add(new SelfAssessmentFragment());
         MainViewPager mMyAdapter = new MainViewPager(getSupportFragmentManager(),fr_list);
         viewPager.setAdapter(mMyAdapter);
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
        /* viewPager.setAdapter(new MainViewPager(getSupportFragmentManager()));*/
 

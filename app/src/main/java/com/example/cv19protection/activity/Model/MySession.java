@@ -43,5 +43,12 @@ public class MySession {
         return sharedPreferences.getString("mobile_number",null);
     }
 
+    public void set_Infected(Boolean b){
+        sharedPreferences.edit().putBoolean("infected",b).apply();
+    }
+
+    public Boolean get_Infected(){
+        return sharedPreferences.getBoolean("infected",false);
+    }
 
 }

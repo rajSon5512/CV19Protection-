@@ -106,9 +106,16 @@ public class LoginFragment extends Fragment {
 
                                         String id=jsonObject.getString("id");
                                         String mobile=jsonObject.getString("mobile_number");
-
+                                        String infected=jsonObject.getString("infected");
                                         mySession.setid(id);
                                         mySession.setMobileNumber(mobile);
+
+                                        if(infected.equals("1")){
+                                            mySession.set_Infected(true);
+                                        }else{
+                                            mySession.set_Infected(false);
+                                        }
+
                                         Intent intent=new Intent(getActivity(),MainActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();
@@ -162,6 +169,9 @@ public class LoginFragment extends Fragment {
             FragmentManager fm=getActivity().getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.login_container,new ForgetPasswordFragment()).addToBackStack("").commit();
     }
+
+
+
 
 
 }
