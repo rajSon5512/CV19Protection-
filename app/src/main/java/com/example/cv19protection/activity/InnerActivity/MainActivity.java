@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop: onStop method called");
-    
+        MapFragment.handler.removeCallbacks(MapFragment.runnable);
     }
 
     @Override

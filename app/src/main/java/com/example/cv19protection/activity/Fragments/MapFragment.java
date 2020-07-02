@@ -79,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
 
         mySession=new MySession(getContext());
 
