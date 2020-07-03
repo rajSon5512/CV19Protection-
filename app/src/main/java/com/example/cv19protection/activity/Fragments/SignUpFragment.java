@@ -85,7 +85,6 @@ public class SignUpFragment extends Fragment {
                     map.put("email",email.getText().toString());
                     map.put("password",password.getText().toString());
                     map.put("mobile_number",phone_number.getText().toString());
-
                     send_request("registration.php",map);
 
                 }
@@ -117,25 +116,45 @@ public class SignUpFragment extends Fragment {
                     @Override
                     public void onResponse(String s) {
 
+                        Log.d("status_error", "onResponse: "+s);
+
                         try {
                             JSONObject jsonObject=new JSONObject(s);
 
+                            Log.d("status_error", "onResponse: "+s);
+
                             if(jsonObject.getString("status").equals("1")){
 
-                                mySession.setid(jsonObject.getString("id"));
-                                mySession.setMobileNumber(jsonObject.getString("mobile_number"));
-                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                String id=jsonObject.getString("id");
+                                String mobile=jsonObject.getString("mobile_number");
+                                String infected=jsonObject.getString("infected");
+                                mySession.setid(id);
+                                mySession.setMobileNumber(mobile);
+
+                                if(infected.equals("1")){
+                                    mySession.set_Infected(true);
+                                }else{
+                                    mySession.set_Infected(false);
+                                }
+
+                                Intent intent=new Intent(getActivity(),MainActivity.class);
                                 startActivity(intent);
                                 getActivity().finish();
+                            }
+                            else if(jsonObject.getString("status").equals("3")){
+
+                                Toast.makeText(getContext(), "Mobile Number and Email Id Already Registered...!!", Toast.LENGTH_LONG).show();
 
                             }
                             else{
                                 Toast.makeText(getContext(), "NetWork Error", Toast.LENGTH_SHORT).show();
+                            
                             }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.d("status_error", "onResponse: "+e.getMessage());
                         }
                         progressBar.setVisibility(View.GONE);
                         create_button.setFocusable(true);

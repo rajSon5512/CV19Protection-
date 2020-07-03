@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -72,6 +73,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private Boolean start_reload=false;
     public static Handler handler;
     public static Runnable runnable;
+    public static Boolean runnnable_on=false;
+
 
     @Nullable
     @Override
@@ -80,7 +83,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
        // Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
-
         mySession=new MySession(getContext());
 
         getPermission();
@@ -91,6 +93,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         runnable = new Runnable() {
             public void run() {
+
+                runnnable_on=true;
                 Log.d(TAG, "run: hello world");
                 handler.postDelayed(this, 10000);
                 getDeviceLocation();
@@ -372,7 +376,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onErrorResponse(VolleyError error) {
 
                         Log.d("Error_message", "onErrorResponse: "+error.toString());
-                        Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
+                       // Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
 
                     }
                 }
@@ -386,8 +390,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         requestQueue.add(stringRequest);
 
     }
-
-
 
 
 }

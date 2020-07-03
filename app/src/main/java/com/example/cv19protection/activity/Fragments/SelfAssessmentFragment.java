@@ -82,10 +82,15 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
                 if(b){
                    map.put("infected","1");
                    s1.setText("Yes");
+                    suggestion_rate.setText(R.string.covid_active_status);
+                    mySession.set_Infected(true);
+
                }else{
                     map.put("infected","0");
                     s1.setText("No");
-               }
+                    suggestion_rate.setText(R.string.suggestion_one);
+                    mySession.set_Infected(false);
+                }
 
                 send_request("covid_nighty_status.php",map);
 
@@ -127,7 +132,8 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
                 if(mySession.get_notify()){
 
                     mySession.set_notify(false);
-                    live_notification_button.setText("Live Notify Stop");
+
+                    Toast.makeText(getContext(), "notify_false", Toast.LENGTH_SHORT).show();
                     live_notification_button.setBackground(getResources().getDrawable(R.drawable.call_helplline_button));
                     stopService();
                 }else{
@@ -168,7 +174,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         switch (view.getId()){
 
             case R.id.switch2:
-                    if(s2.isChecked()){
+                    if(s2.isChecked() && (!s1.isChecked())){
                         suggestion_rate.setText(getString(R.string.fill_illness));
                         s2.setText("Yes");
                     }else{
@@ -176,7 +182,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
                     }
                 break;
             case R.id.switch3:
-                if(s3.isChecked()){
+                if(s3.isChecked() && (!s1.isChecked())){
                     suggestion_rate.setText(getString(R.string.fill_illness));
                     s3.setText("Yes");
                 }else{
@@ -186,7 +192,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.switch4:
-                if(s4.isChecked()){
+                if(s4.isChecked() && (!s1.isChecked())){
                     suggestion_rate.setText(getString(R.string.fill_illness));
                     s4.setText("Yes");
                 }else{
@@ -195,7 +201,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
 
             case R.id.switch5:
 
-                if(s5.isChecked()){
+                if(s5.isChecked() && (!s1.isChecked())){
                     suggestion_rate.setText(getString(R.string.fill_illness));
                     s5.setText("Yes");
                 }else{
@@ -204,7 +210,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
 
                 break;
             case R.id.switch6:
-                if(s6.isChecked()){
+                if(s6.isChecked() && (!s1.isChecked())){
                     suggestion_rate.setText(getString(R.string.suggestion_one));
                     s6.setText("Yes");
                 }else{
@@ -213,7 +219,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.switch7:
-                if(s6.isChecked()){
+                if(s6.isChecked() && (!s1.isChecked())){
                     suggestion_rate.setText(getString(R.string.fill_illness));
                     s6.setText("Yes");
                 }else{
@@ -294,6 +300,5 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
         getActivity().stopService(serviceIntent);
     }
-
 
 }

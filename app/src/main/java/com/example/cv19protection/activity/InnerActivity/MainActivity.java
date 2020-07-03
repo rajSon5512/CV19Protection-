@@ -64,9 +64,16 @@ public class MainActivity extends AppCompatActivity {
         }else{
            // Toast.makeText(this, ""+mySession.get_mobile_number(), Toast.LENGTH_SHORT).show();
             init();
-
+            present_take_diagnose_method();
+            Log.d(TAG, "onCreate: "+mySession.get_Infected());
 
         }
+    }
+
+    private void present_take_diagnose_method() {
+
+
+
     }
 
     @Override
@@ -172,20 +179,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: onpause called");
+        if(MapFragment.runnnable_on){
+            Log.d(TAG, "onPause: runnable_stop");
+            MapFragment.handler.removeCallbacks(MapFragment.runnable);
+        }
+        
+        //MapFragment.handler.removeCallbacks(MapFragment.runnable;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop: onStop method called");
-        MapFragment.handler.removeCallbacks(MapFragment.runnable);
+       
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: onDestroy called");
-        MapFragment.handler.removeCallbacks(MapFragment.runnable);
+
     }
 }
 

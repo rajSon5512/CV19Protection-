@@ -59,7 +59,4 @@ public class MySession {
         return sharedPreferences.getBoolean("notify",false);
     }
 
-
-
-
 }
