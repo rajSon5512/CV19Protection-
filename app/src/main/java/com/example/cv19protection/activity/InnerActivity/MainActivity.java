@@ -1,5 +1,6 @@
 package com.example.cv19protection.activity.InnerActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import com.example.cv19protection.activity.Services.Foregroundservice;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +31,7 @@ import com.example.cv19protection.activity.Fragments.SelfAssessmentFragment;
 import com.example.cv19protection.activity.Model.MySession;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         mySession=new MySession(this);
 
-
-
         Log.d(TAG, "onCreate: id="+mySession.getid());
         Log.d(TAG, "onCreate: visit="+mySession.getVisit());
 
@@ -64,17 +66,52 @@ public class MainActivity extends AppCompatActivity {
         }else{
            // Toast.makeText(this, ""+mySession.get_mobile_number(), Toast.LENGTH_SHORT).show();
             init();
-            present_take_diagnose_method();
+            check_daily_dialog_box();
             Log.d(TAG, "onCreate: "+mySession.get_Infected());
 
         }
     }
 
-    private void present_take_diagnose_method() {
+    private void check_daily_dialog_box() {
 
+        Date date=new Date();
+        CharSequence date_sequence= DateFormat.format("yyyy-MM-dd",date);
 
+        if(!date_sequence.toString().equals(mySession.getvisitDate())){
+            show_custom_dialogbox();
+            mySession.setvisitDate(date_sequence.toString());
+        }
 
     }
+
+    private void show_custom_dialogbox() {
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+
+        //Setting message manually and performing action on button click
+        builder.setMessage("Do you want to close this application ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                        Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("AlertDialogExample");
+        alert.show();
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 mySession.setid("");
                  mySession.set_Infected(false);
                  mySession.setMobileNumber("");
+                mySession.setvisitDate("");
 
                  if(mySession.get_notify()){
 

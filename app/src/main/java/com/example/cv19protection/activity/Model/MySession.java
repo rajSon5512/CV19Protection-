@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.util.Date;
+
 public class MySession {
 
     SharedPreferences sharedPreferences;
@@ -58,5 +60,14 @@ public class MySession {
     public Boolean get_notify(){
         return sharedPreferences.getBoolean("notify",false);
     }
+
+    public void setvisitDate(String date){
+        sharedPreferences.edit().putString("date_visit",date).apply();
+    }
+
+    public String getvisitDate(){
+        return sharedPreferences.getString("date_visit","");
+    }
+
 
 }

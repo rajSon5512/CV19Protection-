@@ -101,7 +101,7 @@ public class InformationFragment extends Fragment {
         });
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
 
         return view;
     }

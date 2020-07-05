@@ -20,7 +20,7 @@
     <string name="log_out">Log out</string>
     <string name="stay_safe">Stay Safe,Stay Health</string>
     <string name="url_temp">https://hasanauction.000webhostapp.com/covidprotection/</string>
-    <string name="url">http://192.168.1.2/covid19/</string>
+    <string name="url">http://192.168.1.3/covid19/</string>
     <string name="forget_password">Forget Password</string>
     <string name="question_one">Have you found positive for Covid-19 ?</string>
     <string name="question_second">Are you experiencing any of following symptopms ?</string>
@@ -29,5 +29,6 @@
     <string name="fill_illness">We suggest please take require medicine and visit near COVID-19 testing center or contact Authorities.</string>
     <string name="covid_active_status">We suggest contact authorities and aware them regarding your situation and self quarantine your self,Our application is tracking your movement so near distance poeple can take require precautions in your presence.</string>
     <string name="notification_start">Start Notification</string>
+    <string name="please_take_diagnoses">Please Take Daily diagnoses test everyday once it is crucial for your own safety.</string>
 
 </resources>
