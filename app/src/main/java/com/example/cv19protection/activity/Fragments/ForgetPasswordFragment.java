@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class ForgetPasswordFragment extends Fragment {
     private Button submit_button;
     private MySession mySession;
     private static final String TAG = "ForgetPasswordFragment";
+    private ProgressBar progressBar_forget_password;
 
     @Nullable
     @Override
@@ -54,6 +56,7 @@ public class ForgetPasswordFragment extends Fragment {
 
         f_mobile_number=view.findViewById(R.id.f_mobile_number);
         submit_button=view.findViewById(R.id.f_submit_button);
+        progressBar_forget_password=view.findViewById(R.id.progressBar_forget_password);
 
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +88,9 @@ public class ForgetPasswordFragment extends Fragment {
         final RequestQueue requestQueue= Volley.newRequestQueue(getContext());
 
         Log.d(TAG, "send_request: hello");
+
+        progressBar_forget_password.setVisibility(View.VISIBLE);
+        submit_button.setFocusable(false);
 
         StringRequest stringRequest=new StringRequest(
                 Request.Method.POST,
@@ -125,6 +131,8 @@ public class ForgetPasswordFragment extends Fragment {
 
 
                         }
+                        progressBar_forget_password.setVisibility(View.GONE);
+                        submit_button.setFocusable(true);
 
                     }
                 },
@@ -134,13 +142,16 @@ public class ForgetPasswordFragment extends Fragment {
 
                         Log.d("Error_message", "onErrorResponse: "+error.toString());
                        // Toast.makeText(getContext(),""+error.toString(),Toast.LENGTH_SHORT);
-
+                        Toast.makeText(getContext(), "NetWork Error, Please Try Again.", Toast.LENGTH_SHORT).show();
+                        progressBar_forget_password.setVisibility(View.GONE);
+                        submit_button.setFocusable(true);
                     }
                 }
         ){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return map;
+
             }
         };
 

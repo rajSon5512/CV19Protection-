@@ -89,25 +89,27 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
 
         //Setting message manually and performing action on button click
-        builder.setMessage("Do you want to close this application ?")
+        builder.setMessage(getString(R.string.please_take_diagnoses))
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        viewPager.setCurrentItem(3,true);
 
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'NO' Button
                         dialog.cancel();
-                        Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
+                        Toast.makeText(getApplicationContext(),"Please take self assessment test later.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-        alert.setTitle("AlertDialogExample");
+        alert.setTitle("Cv19protection");
         alert.show();
 
     }

@@ -37,6 +37,7 @@ public class SignUpFragment extends Fragment {
     private MySession mySession;
     private Button create_button;
     private ProgressBar progressBar;
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     @Nullable
     @Override
@@ -73,7 +74,11 @@ public class SignUpFragment extends Fragment {
 
                     Toast.makeText(getContext(), "Please All Fields Required.", Toast.LENGTH_SHORT).show();
 
-                }else if(!(password.getText().toString().equals(confirm_password.getText().toString()))){
+                }
+                else if(checkemail()){
+
+                }
+                else if(!(password.getText().toString().equals(confirm_password.getText().toString()))){
 
                     Toast.makeText(getContext(), "Repeat password incorrenct.", Toast.LENGTH_SHORT).show();
                 }else{
@@ -91,6 +96,24 @@ public class SignUpFragment extends Fragment {
 
             }
         });
+
+    }
+
+    private boolean checkemail() {
+
+        if(email.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(),"enter email address",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        else {
+            if (email.getText().toString().trim().matches(emailPattern)) {
+                //Toast.makeText(getContext(),"valid email address",Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
 
     }
 
