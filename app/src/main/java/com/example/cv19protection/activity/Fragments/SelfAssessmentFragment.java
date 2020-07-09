@@ -1,6 +1,11 @@
 package com.example.cv19protection.activity.Fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -300,5 +305,7 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         Intent serviceIntent = new Intent(getActivity(), Foregroundservice.class);
         getActivity().stopService(serviceIntent);
     }
+
+
 
 }

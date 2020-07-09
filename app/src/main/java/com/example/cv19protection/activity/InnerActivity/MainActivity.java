@@ -9,7 +9,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -36,8 +35,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+    public static ViewPager viewPager;
+    public static TabLayout tabLayout;
     private MySession mySession;
     private Toolbar toolbar;
 
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         fr_list.add(new InformationFragment());
         fr_list.add(new MapFragment());
         fr_list.add(new SelfAssessmentFragment());
-        MainViewPager mMyAdapter = new MainViewPager(getSupportFragmentManager(),fr_list);
+        MainAdapter mMyAdapter = new MainAdapter(getSupportFragmentManager(),fr_list);
         viewPager.setAdapter(mMyAdapter);
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -147,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class MainViewPager extends FragmentStatePagerAdapter{
+    public class MainAdapter extends FragmentStatePagerAdapter{
 
         ArrayList<Fragment> fr_list;
 
-        public MainViewPager(FragmentManager fm,ArrayList<Fragment> fr_list) {
+        public MainAdapter(FragmentManager fm, ArrayList<Fragment> fr_list) {
             super(fm);
             this.fr_list=fr_list;
         }
@@ -166,6 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
             return fr_list.size();
 
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
     }
 
@@ -188,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
                      mySession.set_notify(false);
                      stopService();
                  }
-
-
 
                 Intent intent=new Intent(this,LoginActivity.class);
                 startActivity(intent);

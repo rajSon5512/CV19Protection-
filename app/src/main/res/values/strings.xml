@@ -30,5 +30,6 @@
     <string name="covid_active_status">We suggest contact authorities and aware them regarding your situation and self quarantine your self,Our application is tracking your movement so near distance poeple can take require precautions in your presence.</string>
     <string name="notification_start">Start Notification</string>
     <string name="please_take_diagnoses">Please Take Self Assessment Test, It is crucial for your own safety.</string>
+    <string name="internet_error">Internet is not available..!!</string>
 
 </resources>

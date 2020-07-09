@@ -1,15 +1,21 @@
 package com.example.cv19protection.activity.Fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,13 +23,14 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cv19protection.R;
+import com.example.cv19protection.activity.InnerActivity.MainActivity;
 import com.example.cv19protection.activity.Model.MySession;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -43,7 +51,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -85,24 +92,110 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
        // Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
         mySession=new MySession(getContext());
 
-        getPermission();
+        if(checkInternet()){
 
-        handler=new Handler();
+            Toast.makeText(getContext(), "internet is not available", Toast.LENGTH_SHORT).show();
 
-        handler = new Handler();
+        }
+        else if(checkGPS()){
+            Toast.makeText(getContext(), "Please turn on GPS.", Toast.LENGTH_SHORT).show();
+        }
+        else{
 
-        runnable = new Runnable() {
-            public void run() {
+            getPermission();
 
-                runnnable_on=true;
-                Log.d(TAG, "run: hello world");
-                handler.postDelayed(this, 10000);
-                getDeviceLocation();
-            }
-        };
+            initMap();
 
-        handler.postDelayed(runnable, 10000);
+            handler=new Handler();
+
+            handler = new Handler();
+
+            runnable = new Runnable() {
+                public void run() {
+
+                    runnnable_on=true;
+                    Log.d(TAG, "run: hello world");
+                    handler.postDelayed(this, 10000);
+                    getDeviceLocation();
+                }
+            };
+
+            handler.postDelayed(runnable, 10000);
+
+        }
+
+
         return view;
+    }
+
+    private boolean checkGPS() {
+
+        final LocationManager manager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+          buildAlertMessageNoGps();
+          return true;
+        }
+        return false;
+    }
+
+    private void buildAlertMessageNoGps() {
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Your GPS seems to be disabled, Please Enable Your GPS and Come back again?")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                           // startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            //MainActivity.viewPager.getAdapter().notifyDataSetChanged();
+                            getActivity().finish();
+
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+
+  /*  private void turnGPSOn(){
+        String provider = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(!provider.contains("gps")){ //if gps is disabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            getActivity().sendBroadcast(poke);
+            MainActivity.viewPager.getAdapter().notifyDataSetChanged();
+        }
+    }*/
+
+
+
+    private boolean checkInternet() {
+
+        ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            new AlertDialog.Builder(getContext())
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(getResources().getString(R.string.internet_error))
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            getActivity().finish();
+
+                        }
+                    }).show();
+
+        }else{
+
+                return false;
+        }
+
+
+        return true;
     }
 
     private void getPermission() {
@@ -153,7 +246,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        getDeviceLocation();
     }
 
     @Override
